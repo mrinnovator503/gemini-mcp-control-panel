@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Control Panel - Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 {
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #response {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #e9ecef;
+            min-height: 50px;
+            text-align: left;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MCP Control Panel</h1>
+        <p>This is a test page for our Model Context Protocol frontend.</p>
+        <button id="testButton">Test Connection to MCP Backend</button>
+        <div id="response">
+            Waiting for connection test...
+        </div>
+    </div>
+
+    <script>
+        const testButton = document.getElementById('testButton');
+        const responseDiv = document.getElementById('response');
+        
+        // IMPORTANT: Replace this with your actual Glitch project URL later
+        // e.g., const backendUrl = 'https://your-glitch-project.glitch.me/ping';
+        const backendUrl = 'YOUR_GLITCH_BACKEND_URL_HERE/ping'; 
+
+        testButton.addEventListener('click', async () => {
+            responseDiv.textContent = 'Connecting to backend...';
+            try {
+                // In a real scenario, we'd add our secret API key here
+                // e.g., headers: { 'X-MCP-API-Key': 'YOUR_SECRET_KEY' }
+                const res = await fetch(backendUrl);
+                const data = await res.json();
+                responseDiv.textContent = `Response from backend: ${JSON.stringify(data, null, 2)}`;
+            } catch (error) {
+                responseDiv.textContent = `Error connecting to backend: ${error.message}. 
+                Please ensure your Glitch backend is running and the URL is correct.`;
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>
