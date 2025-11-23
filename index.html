@@ -108,6 +108,9 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
+            max-height: 400px; /* Limit height */
+            overflow-y: auto; /* Add vertical scrollbar when needed */
+            padding-right: 10px; /* Add some space for the scrollbar */
         }
 
         .task-list li {
