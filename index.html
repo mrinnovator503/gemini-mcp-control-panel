@@ -7,27 +7,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            /* Nothing Phone (2a) Special Edition Palette Interpretation */
-            --bg-color: #FFFFFF; /* White */
-            --text-color: #1A1A1A; /* Dark Gray */
-            --card-bg-color: #F7F7F7; /* Very Light Gray */
-            --border-color: #E0E0E0; /* Light Gray */
-            
+            --bg-color: #FFFFFF;
+            --text-color: #1A1A1A;
+            --card-bg-color: #F7F7F7;
+            --border-color: #E0E0E0;
             --accent-red: #D20000;
             --accent-yellow: #FFD700;
             --accent-blue: #007BFF;
-
             --button-text-light: #FFFFFF;
-            --button-text-dark: #1A1A1A;
-            
-            --success-color: #4CAF50;
-            --error-color: #f44336;
         }
-        
         body {
             font-family: 'VT323', monospace;
             background-color: var(--bg-color);
@@ -40,11 +31,9 @@
             letter-spacing: 1px;
             min-height: 100vh;
             align-items: flex-start;
-            /* Subtle dot grid background */
             background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
             background-size: 20px 20px;
         }
-
         .container {
             width: 100%;
             max-width: 500px;
@@ -52,7 +41,6 @@
             flex-direction: column;
             gap: 2rem;
         }
-
         h1 {
             color: var(--text-color);
             text-align: center;
@@ -60,7 +48,6 @@
             text-shadow: 0 0 2px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
         }
-        
         .card {
             background-color: var(--card-bg-color);
             border: 1px solid var(--border-color);
@@ -71,7 +58,6 @@
             flex-direction: column;
             gap: 1rem;
         }
-
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -80,35 +66,23 @@
             padding-bottom: 1rem;
             margin-bottom: 1rem;
         }
-
         .card-header h2 {
             margin: 0;
             color: var(--text-color);
             font-weight: 400;
             font-size: 1.5rem;
         }
-
         .icon-button {
             background: none;
             border: none;
-            color: var(--secondary-color); /* Default subtle */
             font-size: 1.2rem;
             cursor: pointer;
             transition: color 0.2s ease-in-out;
             padding: 0.5rem;
         }
-
-        .icon-button.ping-button {
-            color: var(--accent-yellow); /* Yellow for ping */
-        }
-        .icon-button.sync-button {
-            color: var(--accent-blue); /* Blue for sync */
-        }
-
-        .icon-button:hover {
-            color: var(--text-color); /* Darker on hover */
-        }
-
+        .icon-button.ping-button { color: var(--accent-yellow); }
+        .icon-button.sync-button { color: var(--accent-blue); }
+        .icon-button:hover { color: var(--text-color); }
         .task-list {
             list-style: none;
             padding: 0;
@@ -120,7 +94,6 @@
             overflow-y: auto;
             padding-right: 10px;
         }
-        
         .task-list li {
             background-color: var(--bg-color);
             padding: 0.75rem 1rem;
@@ -129,29 +102,25 @@
             align-items: center;
             gap: 0.75rem;
         }
-        
         .task-list li.completed {
             text-decoration: line-through;
-            color: var(--text-muted-color);
+            color: #9e9e9e;
         }
-
         .task-checkbox {
             appearance: none;
             -webkit-appearance: none;
             width: 18px;
             height: 18px;
-            border: 2px solid var(--accent-blue); /* Blue border for checkboxes */
+            border: 2px solid var(--accent-blue);
             background-color: transparent;
             cursor: pointer;
             position: relative;
             flex-shrink: 0;
         }
-
         .task-checkbox:checked {
-            background-color: var(--accent-blue); /* Blue fill when checked */
+            background-color: var(--accent-blue);
             border-color: var(--accent-blue);
         }
-
         .task-checkbox:checked::before {
             content: '✓';
             display: block;
@@ -159,17 +128,15 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: var(--button-text-light); /* White checkmark */
+            color: var(--button-text-light);
             font-size: 14px;
             line-height: 1;
         }
-
         .add-task-input-wrapper {
             display: flex;
             gap: 0.5rem;
             margin-top: 1rem;
         }
-
         .add-task-input {
             flex-grow: 1;
             background-color: var(--bg-color);
@@ -180,35 +147,33 @@
             font-family: 'VT323', monospace;
             font-size: 18px;
             letter-spacing: 1px;
+            resize: vertical;
         }
-
         .add-task-input:focus {
             outline: none;
-            border-color: var(--accent-red); /* Red focus border */
+            border-color: var(--accent-red);
         }
-
         .add-task-button {
-            background-color: var(--accent-red); /* Red accent for add button */
+            background-color: var(--accent-red);
             color: var(--button-text-light);
             border: 1px solid var(--accent-red);
             border-radius: 0;
             padding: 12px 15px;
             font-size: 1.2rem;
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            transition: all 0.2s ease-in-out;
             line-height: 1;
         }
         .add-task-button:hover {
             background-color: var(--bg-color);
             color: var(--accent-red);
         }
-
         #status-notification {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: var(--accent-blue); /* Blue for status */
+            background-color: var(--accent-blue);
             color: var(--button-text-light);
             padding: 10px 20px;
             font-weight: 600;
@@ -217,12 +182,10 @@
             pointer-events: none;
             border-radius: 4px;
         }
-        
         #status-notification.show {
             opacity: 1;
             transform: translate(-50%, -10px);
         }
-
     </style>
 </head>
 <body>
@@ -240,7 +203,7 @@
                 <button id="logExpenseButton" class="add-task-button" style="width: 100%; margin-top: 1rem;">Log Manual Expense</button>
             </div>
             
-            <div style="text-align: center; margin: 1rem 0; color: var(--text-muted-color);">--- OR ---</div>
+            <div style="text-align: center; margin: 1rem 0; color: #9e9e9e;">--- OR ---</div>
 
             <div class="parse-text-section">
                 <textarea id="transactionTextInput" class="add-task-input" placeholder="> Paste transaction text from Google Lens here..." rows="5"></textarea>
@@ -263,285 +226,199 @@
             </div>
 
             <ul id="taskList" class="task-list">
-                <!-- Tasks will be loaded here dynamically -->
                 <li>Loading tasks...</li>
             </ul>
         </div>
     </div>
 
-    <!-- Status Notification Area -->
     <div id="status-notification"></div>
 
     <script>
-        const pingButton = document.getElementById('pingButton');
-        const addTaskButton = document.getElementById('addTaskButton');
-        const taskInput = document.getElementById('taskInput');
-        const syncTasksButton = document.getElementById('syncTasksButton');
-        const taskList = document.getElementById('taskList');
-        const statusNotification = document.getElementById('status-notification');
+        document.addEventListener('DOMContentLoaded', () => {
+            const pingButton = document.getElementById('pingButton');
+            const addTaskButton = document.getElementById('addTaskButton');
+            const taskInput = document.getElementById('taskInput');
+            const syncTasksButton = document.getElementById('syncTasksButton');
+            const taskList = document.getElementById('taskList');
+            const statusNotification = document.getElementById('status-notification');
+            const expenseItem = document.getElementById('expenseItem');
+            const expenseAmount = document.getElementById('expenseAmount');
+            const expenseCategory = document.getElementById('expenseCategory');
+            const expensePaymentMethod = document.getElementById('expensePaymentMethod');
+            const expenseNotes = document.getElementById('expenseNotes');
+            const logExpenseButton = document.getElementById('logExpenseButton');
+            const transactionTextInput = document.getElementById('transactionTextInput');
+            const parseTextButton = document.getElementById('parseTextButton');
+            
+            const backendBaseUrl = 'https://mcp-backend-pbxa.onrender.com';
+            let statusTimeout;
 
-        const backendBaseUrl = 'https://mcp-backend-pbxa.onrender.com';
-
-        let statusTimeout;
-
-        function showStatus(message, isError = false) {
-            clearTimeout(statusTimeout);
-            statusNotification.textContent = message;
-            statusNotification.style.backgroundColor = isError ? 'var(--error-color)' : 'var(--accent-blue)';
-            statusNotification.classList.add('show');
-            statusTimeout = setTimeout(() => {
-                statusNotification.classList.remove('show');
-            }, 3000);
-        }
-
-        async function renderTasks() {
-            taskList.innerHTML = '<li>Fetching tasks...</li>';
-            try {
-                const res = await fetch(backendBaseUrl + '/sync-tasks', { method: 'POST' });
-                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
-                const responseData = await res.json();
-                
-                // Clear the list
-                taskList.innerHTML = ''; 
-
-                if (responseData.data && responseData.data.length > 0) {
-                    responseData.data.forEach(project => {
-                        if (project.tasks && project.tasks.length > 0) {
-                            // Add project header
-                            const projectHeader = document.createElement('li');
-                            projectHeader.innerHTML = `<strong>${project.name}</strong>`;
-                            projectHeader.style.marginTop = '1rem';
-                            projectHeader.style.marginBottom = '0.5rem';
-                            projectHeader.style.backgroundColor = 'transparent';
-                            projectHeader.style.border = 'none';
-                            projectHeader.style.padding = '0';
-                            taskList.appendChild(projectHeader);
-
-                            project.tasks.forEach(task => {
-                                const listItem = document.createElement('li');
-                                listItem.classList.toggle('completed', task.is_completed);
-                                listItem.innerHTML = `
-                                    <input type="checkbox" class="task-checkbox" ${task.is_completed ? 'checked' : ''} data-task-id="${task.id}">
-                                    <span>${task.content} ${task.due ? `(Due: ${task.due})` : ''}</span>
-                                `;
-                                taskList.appendChild(listItem);
-                            });
-                        } else if (project.tasks && project.tasks.length === 0) {
-                            const projectHeader = document.createElement('li');
-                            projectHeader.innerHTML = `<strong>${project.name}</strong>`;
-                            projectHeader.style.marginTop = '1rem';
-                            projectHeader.style.marginBottom = '0.5rem';
-                            projectHeader.style.backgroundColor = 'transparent';
-                            projectHeader.style.border = 'none';
-                            projectHeader.style.padding = '0';
-                            taskList.appendChild(projectHeader);
-
-                            const noTasksItem = document.createElement('li');
-                            noTasksItem.textContent = 'No tasks in this project.';
-                            noTasksItem.style.color = 'var(--text-muted-color)';
-                            taskList.appendChild(noTasksItem);
-                        }
-                    });
-                } else {
-                    taskList.innerHTML = '<li>No tasks found.</li>';
-                }
-            } catch (error) {
-                showStatus(`✗ Failed to load tasks: ${error.message}`, true);
-                console.error('Error:', error);
-                taskList.innerHTML = '<li>Failed to load tasks.</li>';
-            }
-        }
-
-        // Initial task load
-        document.addEventListener('DOMContentLoaded', renderTasks);
-
-        // --- Event Listeners ---
-
-        pingButton.addEventListener('click', async () => {
-            showStatus('Pinging backend...');
-            try {
-                const res = await fetch(backendBaseUrl + '/ping');
-                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
-                const data = await res.json();
-                showStatus('✓ Ping successful!');
-                console.log(data);
-            } catch (error) {
-                showStatus(`✗ Ping failed: ${error.message}`, true);
-                console.error('Error:', error);
-            }
-        });
-
-        const expenseItem = document.getElementById('expenseItem');
-        const expenseAmount = document.getElementById('expenseAmount');
-        const expenseCategory = document.getElementById('expenseCategory');
-        const expensePaymentMethod = document.getElementById('expensePaymentMethod');
-        const expenseNotes = document.getElementById('expenseNotes');
-        const logExpenseButton = document.getElementById('logExpenseButton');
-
-        logExpenseButton.addEventListener('click', async () => {
-            const item = expenseItem.value.trim();
-            const amount = expenseAmount.value.trim();
-            if (!item || !amount) {
-                showStatus('✗ Item and Amount are required.', true);
-                return;
+            function showStatus(message, isError = false) {
+                clearTimeout(statusTimeout);
+                statusNotification.textContent = message;
+                statusNotification.style.backgroundColor = isError ? 'var(--error-color)' : 'var(--accent-blue)';
+                statusNotification.classList.add('show');
+                statusTimeout = setTimeout(() => {
+                    statusNotification.classList.remove('show');
+                }, 3000);
             }
 
-            showStatus('Logging expense...');
-            try {
-                const res = await fetch(backendBaseUrl + '/log-expense', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        item: item,
-                        amount: amount,
-                        category: expenseCategory.value.trim(),
-                        paymentMethod: expensePaymentMethod.value.trim(),
-                        notes: expenseNotes.value.trim()
-                    }),
-                });
-                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
-                
-                showStatus('✓ Expense logged successfully!');
-                // Clear fields
-                expenseItem.value = '';
-                expenseAmount.value = '';
-                expenseCategory.value = '';
-                expensePaymentMethod.value = '';
-                expenseNotes.value = '';
-
-            } catch (error) {
-                showStatus(`✗ Failed to log expense: ${error.message}`, true);
-                console.error('Error:', error);
-            }
-        });
-
-        // OCR Image Upload
-        const ocrImageInput = document.getElementById('ocrImageInput');
-        const ocrUploadButton = document.getElementById('ocrUploadButton');
-
-        ocrUploadButton.addEventListener('click', () => {
-            ocrImageInput.click(); // Trigger the hidden file input
-        });
-
-        ocrImageInput.addEventListener('change', async (event) => {
-            const file = event.target.files[0];
-            if (!file) {
-                showStatus('✗ No file selected.', true);
-                return;
-            }
-
-            showStatus('Uploading and processing image (OCR)...');
-            try {
-                const formData = new FormData();
-                formData.append('expenseImage', file);
-
-                const res = await fetch(backendBaseUrl + '/log-expense-image', {
-                    method: 'POST',
-                    body: formData, // FormData automatically sets Content-Type
-                });
-                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
-                const data = await res.json();
-                showStatus(`✓ OCR successful! Detected: ${data.detectedAmount ? '₹' + data.detectedAmount : 'Amount not found'}`);
-                
-            } catch (error) {
-                showStatus(`✗ OCR processing failed: ${error.message}`, true);
-                console.error('Error:', error);
-            } finally {
-                event.target.value = ''; // Clear file input
-            }
-        });
-
-        // Paste and Parse Logic
-        const transactionTextInput = document.getElementById('transactionTextInput');
-        const parseTextButton = document.getElementById('parseTextButton');
-
-        parseTextButton.addEventListener('click', async () => {
-            const text = transactionTextInput.value.trim();
-            if (!text) {
-                showStatus('✗ Please paste transaction text.', true);
-                return;
-            }
-
-            showStatus('Parsing text...');
-            try {
-                const res = await fetch(backendBaseUrl + '/parse-expense-text', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ transactionText: text }),
-                });
-                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
-                const data = await res.json();
-                
-                if (data.parsedData) {
-                    expenseItem.value = data.parsedData.item || '';
-                    expenseAmount.value = data.parsedData.amount || '';
-                    showStatus('✓ Text parsed and form pre-filled!');
-                } else {
-                    showStatus('✗ Parsing failed: No data extracted.', true);
-                }
-
-            } catch (error) {
-                showStatus(`✗ Text parsing failed: ${error.message}`, true);
-                console.error('Error:', error);
-            }
-        });
-
-        addTaskButton.addEventListener('click', async () => {
-            const taskContent = taskInput.value.trim();
-            if (!taskContent) {
-                showStatus('✗ Task content empty.', true);
-                return;
-            }
-
-            showStatus('Transmitting task...');
-            try {
-                const res = await fetch(backendBaseUrl + '/add-task', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ taskContent: taskContent }),
-                });
-                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
-                showStatus('✓ Task transmitted!');
-                taskInput.value = ''; // Clear input on success
-                renderTasks(); // Re-render tasks after adding
-            } catch (error) {
-                showStatus(`✗ Transmission failed: ${error.message}`, true);
-                console.error('Error:', error);
-            }
-        });
-
-        syncTasksButton.addEventListener('click', renderTasks);
-
-        // TODO: Implement task completion logic in Phase 3
-        taskList.addEventListener('change', async (event) => {
-            if (event.target.classList.contains('task-checkbox')) {
-                const taskId = event.target.dataset.taskId;
-                const isCompleted = event.target.checked;
-                const endpoint = isCompleted ? '/complete-task' : '/reopen-task';
-
-                showStatus(`Task ${isCompleted ? 'completing' : 'uncompleting'}...`);
+            async function renderTasks() {
+                taskList.innerHTML = '<li>Fetching tasks...</li>';
                 try {
-                    // This will be a new endpoint POST /complete-task or similar
-                    const res = await fetch(backendBaseUrl + endpoint, {
+                    const res = await fetch(backendBaseUrl + '/sync-tasks', { method: 'POST' });
+                    if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+                    const responseData = await res.json();
+                    
+                    taskList.innerHTML = ''; 
+
+                    if (responseData.data && responseData.data.length > 0) {
+                        responseData.data.forEach(project => {
+                            if (project.tasks && project.tasks.length > 0) {
+                                const projectHeader = document.createElement('li');
+                                projectHeader.innerHTML = `<strong>${project.name}</strong>`;
+                                projectHeader.style.cssText = 'margin-top: 1rem; margin-bottom: 0.5rem; background-color: transparent; border: none; padding: 0;';
+                                taskList.appendChild(projectHeader);
+
+                                project.tasks.forEach(task => {
+                                    const listItem = document.createElement('li');
+                                    listItem.classList.toggle('completed', task.is_completed);
+                                    listItem.dataset.taskId = task.id;
+                                    listItem.innerHTML = `
+                                        <input type="checkbox" class="task-checkbox" ${task.is_completed ? 'checked' : ''} data-task-id="${task.id}">
+                                        <span>${task.content} ${task.due ? `(Due: ${task.due})` : ''}</span>
+                                    `;
+                                    taskList.appendChild(listItem);
+                                });
+                            }
+                        });
+                    } else {
+                        taskList.innerHTML = '<li>No tasks found.</li>';
+                    }
+                } catch (error) {
+                    showStatus(`✗ Failed to load tasks: ${error.message}`, true);
+                    taskList.innerHTML = '<li>Failed to load tasks.</li>';
+                }
+            }
+
+            renderTasks();
+
+            pingButton.addEventListener('click', async () => {
+                showStatus('Pinging backend...');
+                try {
+                    const res = await fetch(backendBaseUrl + '/ping');
+                    if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+                    showStatus('✓ Ping successful!');
+                } catch (error) {
+                    showStatus(`✗ Ping failed: ${error.message}`, true);
+                }
+            });
+
+            logExpenseButton.addEventListener('click', async () => {
+                const item = expenseItem.value.trim();
+                const amount = expenseAmount.value.trim();
+                if (!item || !amount) {
+                    showStatus('✗ Item and Amount are required.', true);
+                    return;
+                }
+                showStatus('Logging expense...');
+                try {
+                    const res = await fetch(backendBaseUrl + '/log-expense', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ taskId: taskId }),
+                        body: JSON.stringify({
+                            item: item,
+                            amount: amount,
+                            category: expenseCategory.value.trim(),
+                            paymentMethod: expensePaymentMethod.value.trim(),
+                            notes: expenseNotes.value.trim()
+                        }),
                     });
                     if (!res.ok) throw new Error(`Server responded with ${res.status}`);
-                    
-                    // Visual update happens first
-                    event.target.closest('li').classList.toggle('completed', isCompleted);
-                    showStatus(`✓ Task ${isCompleted ? 'completed' : 're-opened'}!`);
-
-                    // Re-render the whole list after a short delay to ensure consistency with Todoist
-                    setTimeout(renderTasks, 1500);
-
+                    showStatus('✓ Expense logged successfully!');
+                    expenseItem.value = '';
+                    expenseAmount.value = '';
+                    expenseCategory.value = '';
+                    expensePaymentMethod.value = '';
+                    expenseNotes.value = '';
                 } catch (error) {
-                    showStatus(`✗ Failed to update task: ${error.message}`, true);
-                    console.error('Error:', error);
-                    event.target.checked = !isCompleted; // Revert checkbox state on error
+                    showStatus(`✗ Failed to log expense: ${error.message}`, true);
                 }
-            }
+            });
+
+            parseTextButton.addEventListener('click', async () => {
+                const text = transactionTextInput.value.trim();
+                if (!text) {
+                    showStatus('✗ Please paste transaction text.', true);
+                    return;
+                }
+                showStatus('Parsing text...');
+                try {
+                    const res = await fetch(backendBaseUrl + '/parse-expense-text', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ transactionText: text }),
+                    });
+                    if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+                    const data = await res.json();
+                    if (data.parsedData) {
+                        expenseItem.value = data.parsedData.item || '';
+                        expenseAmount.value = data.parsedData.amount || '';
+                        showStatus('✓ Text parsed and form pre-filled!');
+                    } else {
+                        showStatus('✗ Parsing failed: No data extracted.', true);
+                    }
+                } catch (error) {
+                    showStatus(`✗ Text parsing failed: ${error.message}`, true);
+                }
+            });
+
+            addTaskButton.addEventListener('click', async () => {
+                const taskContent = taskInput.value.trim();
+                if (!taskContent) {
+                    showStatus('✗ Task content empty.', true);
+                    return;
+                }
+                showStatus('Transmitting task...');
+                try {
+                    const res = await fetch(backendBaseUrl + '/add-task', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ taskContent: taskContent }),
+                    });
+                    if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+                    showStatus('✓ Task transmitted!');
+                    taskInput.value = '';
+                    renderTasks();
+                } catch (error) {
+                    showStatus(`✗ Transmission failed: ${error.message}`, true);
+                }
+            });
+
+            syncTasksButton.addEventListener('click', renderTasks);
+
+            taskList.addEventListener('change', async (event) => {
+                if (event.target.classList.contains('task-checkbox')) {
+                    const taskId = event.target.dataset.taskId;
+                    const isCompleted = event.target.checked;
+                    const endpoint = isCompleted ? '/complete-task' : '/reopen-task';
+                    showStatus(`Updating task...`);
+                    try {
+                        const res = await fetch(backendBaseUrl + endpoint, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ taskId: taskId }),
+                        });
+                        if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+                        event.target.closest('li').classList.toggle('completed', isCompleted);
+                        showStatus(`✓ Task ${isCompleted ? 'completed' : 're-opened'}!`);
+                        setTimeout(renderTasks, 1500);
+                    } catch (error) {
+                        showStatus(`✗ Failed to update task: ${error.message}`, true);
+                        event.target.checked = !isCompleted;
+                    }
+                }
+            });
         });
     </script>
 </body>
