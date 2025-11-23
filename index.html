@@ -148,7 +148,11 @@
             try {
                 const res = await fetch(backendBaseUrl + '/sync-tasks', { method: 'POST' });
                 const data = await res.json();
-                syncResponseDiv.textContent = `Sync successful! ${data.message}`;
+                if (res.ok) {
+                    syncResponseDiv.innerHTML = `<h3>Sync successful!</h3><pre>${data.markdown}</pre>`;
+                } else {
+                    syncResponseDiv.textContent = `Error syncing tasks: ${data.error || res.statusText}`;
+                }
             } catch (error) {
                 syncResponseDiv.textContent = `Error syncing tasks: ${error.message}.`;
                 console.error('Error:', error);
