@@ -230,6 +230,18 @@
         <h1>quinteom</h1>
         
         <div class="card">
+            <h2>Log Expense</h2>
+            <div class="expense-form">
+                <input type="text" id="expenseItem" class="add-task-input" placeholder="Item / Description">
+                <input type="number" id="expenseAmount" class="add-task-input" placeholder="Amount (INR)">
+                <input type="text" id="expenseCategory" class="add-task-input" placeholder="Category (e.g., Food, Travel)">
+                <input type="text" id="expensePaymentMethod" class="add-task-input" placeholder="Payment Method (e.g., UPI, Cash)">
+                <textarea id="expenseNotes" class="add-task-input" placeholder="Notes..." rows="2"></textarea>
+                <button id="logExpenseButton" class="add-task-button" style="width: 100%; margin-top: 1rem;">Log Expense</button>
+            </div>
+        </div>
+
+        <div class="card">
             <div class="card-header">
                 <h2>Todoist Matrix</h2>
                 <div style="display: flex; gap: 0.5rem;">
@@ -348,6 +360,50 @@
                 console.log(data);
             } catch (error) {
                 showStatus(`✗ Ping failed: ${error.message}`, true);
+                console.error('Error:', error);
+            }
+        });
+
+        const expenseItem = document.getElementById('expenseItem');
+        const expenseAmount = document.getElementById('expenseAmount');
+        const expenseCategory = document.getElementById('expenseCategory');
+        const expensePaymentMethod = document.getElementById('expensePaymentMethod');
+        const expenseNotes = document.getElementById('expenseNotes');
+        const logExpenseButton = document.getElementById('logExpenseButton');
+
+        logExpenseButton.addEventListener('click', async () => {
+            const item = expenseItem.value.trim();
+            const amount = expenseAmount.value.trim();
+            if (!item || !amount) {
+                showStatus('✗ Item and Amount are required.', true);
+                return;
+            }
+
+            showStatus('Logging expense...');
+            try {
+                const res = await fetch(backendBaseUrl + '/log-expense', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        item: item,
+                        amount: amount,
+                        category: expenseCategory.value.trim(),
+                        paymentMethod: expensePaymentMethod.value.trim(),
+                        notes: expenseNotes.value.trim()
+                    }),
+                });
+                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+                
+                showStatus('✓ Expense logged successfully!');
+                // Clear fields
+                expenseItem.value = '';
+                expenseAmount.value = '';
+                expenseCategory.value = '';
+                expensePaymentMethod.value = '';
+                expenseNotes.value = '';
+
+            } catch (error) {
+                showStatus(`✗ Failed to log expense: ${error.message}`, true);
                 console.error('Error:', error);
             }
         });
