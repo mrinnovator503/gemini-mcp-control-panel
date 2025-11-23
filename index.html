@@ -370,25 +370,27 @@
 
         syncTasksButton.addEventListener('click', renderTasks);
 
-        // TODO: Implement task completion logic in Phase 3
         taskList.addEventListener('change', async (event) => {
             if (event.target.classList.contains('task-checkbox')) {
                 const taskId = event.target.dataset.taskId;
                 const isCompleted = event.target.checked;
-                showStatus(`Task ${isCompleted ? 'completing' : 'uncompleting'}...`);
-                // Placeholder for backend API call to mark task complete/incomplete
+                const endpoint = isCompleted ? '/complete-task' : '/reopen-task';
+
+                showStatus(`Updating task...`);
                 try {
-                    // This will be a new endpoint POST /complete-task or similar
-                    // const res = await fetch(backendBaseUrl + '/complete-task', {
-                    //     method: 'POST',
-                    //     headers: { 'Content-Type': 'application/json' },
-                    //     body: JSON.stringify({ taskId: taskId, completed: isCompleted }),
-                    // });
-                    // if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+                    const res = await fetch(backendBaseUrl + endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ taskId: taskId }),
+                    });
+                    if (!res.ok) throw new Error(`Server responded with ${res.status}`);
                     
-                    // For now, just visually update
                     event.target.closest('li').classList.toggle('completed', isCompleted);
-                    showStatus(`✓ Task ${isCompleted ? 'completed' : 'uncompleted'}!`);
+                    showStatus(`✓ Task ${isCompleted ? 'completed' : 're-opened'}!`);
+
+                    // Optional: Re-render the whole list after a short delay to ensure consistency
+                    setTimeout(renderTasks, 1500);
+
                 } catch (error) {
                     showStatus(`✗ Failed to update task: ${error.message}`, true);
                     console.error('Error:', error);
