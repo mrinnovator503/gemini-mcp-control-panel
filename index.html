@@ -134,6 +134,7 @@
             <h2>Sync with Todoist</h2>
             <p>Manually sync local task file.</p>
             <button id="syncTasksButton">Execute Sync</button>
+            <div id="taskWidgetDisplay" class="response-box" style="margin-top: 1rem;">Click 'Execute Sync' to display your tasks here.</div>
         </div>
 
         <div class="card">
@@ -207,10 +208,18 @@
             }
         });
 
-        syncTasksButton.addEventListener('click', () => {
-            // This button is now a placeholder for the local script.
-            // We can't trigger the local script from here, but we can provide feedback.
-            showStatus('Run ./sync_tasks.js in terminal', false);
+        syncTasksButton.addEventListener('click', async () => {
+            showStatus('Executing sync...');
+            try {
+                const res = await fetch(backendBaseUrl + '/sync-tasks', { method: 'POST' });
+                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+                const data = await res.json();
+                taskWidgetDisplay.innerHTML = `<pre>${data.markdown}</pre>`;
+                showStatus('✓ Sync complete!');
+            } catch (error) {
+                showStatus(`✗ Sync failed: ${error.message}`, true);
+                console.error('Error:', error);
+            }
         });
     </script>
 </body>
