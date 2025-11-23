@@ -237,7 +237,14 @@
                 <input type="text" id="expenseCategory" class="add-task-input" placeholder="Category (e.g., Food, Travel)">
                 <input type="text" id="expensePaymentMethod" class="add-task-input" placeholder="Payment Method (e.g., UPI, Cash)">
                 <textarea id="expenseNotes" class="add-task-input" placeholder="Notes..." rows="2"></textarea>
-                <button id="logExpenseButton" class="add-task-button" style="width: 100%; margin-top: 1rem;">Log Expense</button>
+                <button id="logExpenseButton" class="add-task-button" style="width: 100%; margin-top: 1rem;">Log Manual Expense</button>
+            </div>
+            
+            <div style="text-align: center; margin: 1rem 0; color: var(--text-muted-color);">--- OR ---</div>
+
+            <div class="ocr-upload-section">
+                <input type="file" id="ocrImageInput" accept="image/*" style="display: none;">
+                <button id="ocrUploadButton" class="add-task-button" style="width: 100%;">Upload Transaction Image (OCR)</button>
             </div>
         </div>
 
@@ -405,6 +412,42 @@
             } catch (error) {
                 showStatus(`✗ Failed to log expense: ${error.message}`, true);
                 console.error('Error:', error);
+            }
+        });
+
+        // OCR Image Upload
+        const ocrImageInput = document.getElementById('ocrImageInput');
+        const ocrUploadButton = document.getElementById('ocrUploadButton');
+
+        ocrUploadButton.addEventListener('click', () => {
+            ocrImageInput.click(); // Trigger the hidden file input
+        });
+
+        ocrImageInput.addEventListener('change', async (event) => {
+            const file = event.target.files[0];
+            if (!file) {
+                showStatus('✗ No file selected.', true);
+                return;
+            }
+
+            showStatus('Uploading and processing image (OCR)...');
+            try {
+                const formData = new FormData();
+                formData.append('expenseImage', file);
+
+                const res = await fetch(backendBaseUrl + '/log-expense-image', {
+                    method: 'POST',
+                    body: formData, // FormData automatically sets Content-Type
+                });
+                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+                const data = await res.json();
+                showStatus(`✓ OCR successful! Detected: ${data.detectedAmount ? '₹' + data.detectedAmount : 'Amount not found'}`);
+                
+            } catch (error) {
+                showStatus(`✗ OCR processing failed: ${error.message}`, true);
+                console.error('Error:', error);
+            } finally {
+                event.target.value = ''; // Clear file input
             }
         });
 
