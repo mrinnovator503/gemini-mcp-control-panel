@@ -3,35 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCP Control Panel</title>
+    <title>MCP // Control Panel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #1a1a1a;
-            --card-color: #2a2a2a;
-            --text-color: #e0e0e0;
-            --text-muted-color: #9e9e9e;
-            --primary-color: #007bff;
-            --primary-hover-color: #0056b3;
-            --border-color: #424242;
-            --response-bg-color: #1e1e1e;
+            --bg-color: #1a1c2c;
+            --text-color: #dcd7ba;
+            --primary-color: #ffaf5f;
+            --border-color: #5a5a78;
+            --card-color: rgba(42, 42, 60, 0.5);
+            --glow-color: rgba(255, 175, 95, 0.1);
         }
         
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'VT323', monospace;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
             padding: 2rem;
             display: flex;
             justify-content: center;
+            font-size: 18px;
+            letter-spacing: 1px;
         }
 
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: 500px;
             display: flex;
             flex-direction: column;
             gap: 2rem;
@@ -40,57 +40,56 @@
         h1 {
             color: #fff;
             text-align: center;
-            font-weight: 700;
-            letter-spacing: -1px;
+            font-weight: 400;
+            text-shadow: 0 0 5px var(--primary-color);
+            margin-bottom: 0;
         }
-
+        
         .card {
             background-color: var(--card-color);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
+            border-radius: 0; /* Sharp corners for retro feel */
             padding: 1.5rem;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 15px var(--glow-color);
         }
 
         .card h2 {
             margin-top: 0;
-            color: #fff;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.75rem;
-            font-size: 1.25rem;
+            color: var(--primary-color);
+            font-weight: 400;
+            font-size: 1.5rem;
         }
 
         button {
             width: 100%;
             padding: 12px 24px;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #fff;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            letter-spacing: 1px;
+            color: var(--bg-color);
             background-color: var(--primary-color);
-            border: none;
-            border-radius: 8px;
+            border: 1px solid var(--primary-color);
+            border-radius: 0;
             cursor: pointer;
-            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            transition: all 0.2s ease-in-out;
         }
 
         button:hover {
-            background-color: var(--primary-hover-color);
-        }
-
-        button:active {
-            transform: scale(0.98);
+            background-color: var(--bg-color);
+            color: var(--primary-color);
         }
 
         textarea {
             width: 100%;
             box-sizing: border-box;
-            background-color: var(--bg-color);
+            background-color: #2e2e48;
             border: 1px solid var(--border-color);
             color: var(--text-color);
-            border-radius: 8px;
+            border-radius: 0;
             padding: 12px;
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            letter-spacing: 1px;
             margin-bottom: 1rem;
             resize: vertical;
         }
@@ -98,76 +97,88 @@
         textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
-        }
-
-        .response-box {
-            margin-top: 1rem;
-            padding: 1rem;
-            border-radius: 8px;
-            background-color: var(--response-bg-color);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted-color);
-            min-height: 40px;
-            text-align: left;
-            word-wrap: break-word;
-            font-size: 0.9rem;
-            white-space: pre-wrap; /* To respect newlines in the markdown */
         }
         
-        .response-box pre {
-            margin: 0;
-            font-family: inherit;
+        #status-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            padding: 10px 20px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.5s, transform 0.5s;
+            pointer-events: none;
         }
+        
+        #status-notification.show {
+            opacity: 1;
+            transform: translate(-50%, -10px);
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>MCP Control Panel</h1>
+        <h1>MCP // Control Panel</h1>
         
         <div class="card">
             <h2>Add Todoist Task</h2>
-            <textarea id="taskInput" placeholder="Enter your task here (e.g., Buy milk tomorrow at 5pm #groceries p1)" rows="3"></textarea>
-            <button id="addTaskButton">Add Task to Todoist</button>
-            <div id="taskResponse" class="response-box">Waiting for task submission...</div>
+            <textarea id="taskInput" placeholder="> Enter task..." rows="3"></textarea>
+            <button id="addTaskButton">Transmit</button>
         </div>
         
         <div class="card">
             <h2>Sync with Todoist</h2>
-            <button id="syncTasksButton">Sync Now</button>
-            <div id="syncResponse" class="response-box">Click to sync tasks from Todoist.</div>
+            <p>Manually sync local task file.</p>
+            <button id="syncTasksButton">Execute Sync</button>
         </div>
 
         <div class="card">
-            <h2>Connection Test</h2>
-            <button id="testButton">Test Connection to MCP Backend</button>
-            <div id="response" class="response-box">Waiting for connection test...</div>
+            <h2>System Check</h2>
+            <p>Verify connection to backend matrix.</p>
+            <button id="testButton">Ping</button>
         </div>
     </div>
 
+    <!-- Status Notification Area -->
+    <div id="status-notification"></div>
+
     <script>
-        const testButton = document.getElementById('testButton');
-        const responseDiv = document.getElementById('response');
-        
         const addTaskButton = document.getElementById('addTaskButton');
         const taskInput = document.getElementById('taskInput');
-        const taskResponseDiv = document.getElementById('taskResponse');
-
         const syncTasksButton = document.getElementById('syncTasksButton');
-        const syncResponseDiv = document.getElementById('syncResponse');
+        const testButton = document.getElementById('testButton');
+        const statusNotification = document.getElementById('status-notification');
 
-        const backendBaseUrl = 'https://mcp-backend-pbxa.onrender.com'; // Base URL for the backend
+        const backendBaseUrl = 'https://mcp-backend-pbxa.onrender.com';
+
+        let statusTimeout;
+
+        function showStatus(message, isError = false) {
+            clearTimeout(statusTimeout);
+            statusNotification.textContent = message;
+            statusNotification.style.backgroundColor = isError ? '#ff5f5f' : 'var(--primary-color)';
+            statusNotification.classList.add('show');
+            statusTimeout = setTimeout(() => {
+                statusNotification.classList.remove('show');
+            }, 3000);
+        }
 
         // --- Event Listeners ---
 
         testButton.addEventListener('click', async () => {
-            responseDiv.textContent = 'Connecting to backend...';
+            showStatus('Pinging backend...');
             try {
                 const res = await fetch(backendBaseUrl + '/ping');
+                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
                 const data = await res.json();
-                responseDiv.textContent = `Response from backend: ${JSON.stringify(data, null, 2)}`;
+                showStatus('✓ Ping successful!');
+                console.log(data);
             } catch (error) {
-                responseDiv.textContent = `Error connecting to backend: ${error.message}.`;
+                showStatus(`✗ Ping failed: ${error.message}`, true);
                 console.error('Error:', error);
             }
         });
@@ -175,45 +186,31 @@
         addTaskButton.addEventListener('click', async () => {
             const taskContent = taskInput.value.trim();
             if (!taskContent) {
-                taskResponseDiv.textContent = 'Please enter a task.';
+                showStatus('✗ Task content empty.', true);
                 return;
             }
 
-            taskResponseDiv.textContent = 'Adding task...';
+            showStatus('Transmitting task...');
             try {
                 const res = await fetch(backendBaseUrl + '/add-task', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ taskContent: taskContent }),
                 });
+                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
                 const data = await res.json();
-                taskResponseDiv.textContent = `Response from backend: ${JSON.stringify(data, null, 2)}`;
-                if (res.ok) {
-                    taskInput.value = ''; // Clear input on success
-                    // Automatically trigger a sync after adding a task
-                    syncTasksButton.click(); 
-                }
+                showStatus('✓ Task transmitted!');
+                taskInput.value = ''; // Clear input on success
             } catch (error) {
-                taskResponseDiv.textContent = `Error adding task: ${error.message}.`;
+                showStatus(`✗ Transmission failed: ${error.message}`, true);
                 console.error('Error:', error);
             }
         });
 
-        syncTasksButton.addEventListener('click', async () => {
-            syncResponseDiv.textContent = 'Syncing tasks from Todoist...';
-            try {
-                const res = await fetch(backendBaseUrl + '/sync-tasks', { method: 'POST' });
-                const data = await res.json();
-                if (res.ok) {
-                    // Use innerHTML to render the preformatted tag for markdown
-                    syncResponseDiv.innerHTML = `<h3>Sync successful!</h3><pre>${data.markdown}</pre>`;
-                } else {
-                    syncResponseDiv.textContent = `Error syncing tasks: ${data.error || res.statusText}`;
-                }
-            } catch (error) {
-                syncResponseDiv.textContent = `Error syncing tasks: ${error.message}.`;
-                console.error('Error:', error);
-            }
+        syncTasksButton.addEventListener('click', () => {
+            // This button is now a placeholder for the local script.
+            // We can't trigger the local script from here, but we can provide feedback.
+            showStatus('Run ./sync_tasks.js in terminal', false);
         });
     </script>
 </body>
