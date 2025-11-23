@@ -3,55 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCP Control Panel - Test</title>
+    <title>MCP Control Panel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --card-color: #2a2a2a;
+            --text-color: #e0e0e0;
+            --text-muted-color: #9e9e9e;
+            --primary-color: #007bff;
+            --primary-hover-color: #0056b3;
+            --border-color: #424242;
+            --response-bg-color: #1e1e1e;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            gap: 2rem;
         }
-        .container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-            width: 90%;
-        }
+
         h1 {
-            color: #0056b3;
-            margin-bottom: 20px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
             color: #fff;
-            background-color: #007bff;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.75rem;
+            font-size: 1.25rem;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+            background-color: var(--primary-color);
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            margin-bottom: 20px;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
         }
+
         button:hover {
-            background-color: #0056b3;
+            background-color: var(--primary-hover-color);
         }
-        #response {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #e9ecef;
-            min-height: 50px;
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 8px;
+            padding: 12px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            resize: vertical;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+
+        .response-box {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 8px;
+            background-color: var(--response-bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted-color);
+            min-height: 40px;
             text-align: left;
             word-wrap: break-word;
+            font-size: 0.9rem;
+            white-space: pre-wrap; /* To respect newlines in the markdown */
+        }
+        
+        .response-box pre {
+            margin: 0;
+            font-family: inherit;
         }
     </style>
 </head>
@@ -59,33 +125,23 @@
     <div class="container">
         <h1>MCP Control Panel</h1>
         
-        <div class="section">
-            <h2>Connection Test</h2>
-            <button id="testButton">Test Connection to MCP Backend</button>
-            <div id="response" class="response-box">
-                Waiting for connection test...
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="section">
-            <h2>Sync with Todoist</h2>
-            <button id="syncTasksButton">Sync Now</button>
-            <div id="syncResponse" class="response-box">
-                Click to sync tasks from Todoist.
-            </div>
-        </div>
-
-        <hr>
-
-        <div class="section">
+        <div class="card">
             <h2>Add Todoist Task</h2>
             <textarea id="taskInput" placeholder="Enter your task here (e.g., Buy milk tomorrow at 5pm #groceries p1)" rows="3"></textarea>
             <button id="addTaskButton">Add Task to Todoist</button>
-            <div id="taskResponse" class="response-box">
-                Waiting for task submission...
-            </div>
+            <div id="taskResponse" class="response-box">Waiting for task submission...</div>
+        </div>
+        
+        <div class="card">
+            <h2>Sync with Todoist</h2>
+            <button id="syncTasksButton">Sync Now</button>
+            <div id="syncResponse" class="response-box">Click to sync tasks from Todoist.</div>
+        </div>
+
+        <div class="card">
+            <h2>Connection Test</h2>
+            <button id="testButton">Test Connection to MCP Backend</button>
+            <div id="response" class="response-box">Waiting for connection test...</div>
         </div>
     </div>
 
@@ -149,6 +205,7 @@
                 const res = await fetch(backendBaseUrl + '/sync-tasks', { method: 'POST' });
                 const data = await res.json();
                 if (res.ok) {
+                    // Use innerHTML to render the preformatted tag for markdown
                     syncResponseDiv.innerHTML = `<h3>Sync successful!</h3><pre>${data.markdown}</pre>`;
                 } else {
                     syncResponseDiv.textContent = `Error syncing tasks: ${data.error || res.statusText}`;
