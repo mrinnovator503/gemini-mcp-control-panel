@@ -242,9 +242,9 @@
             
             <div style="text-align: center; margin: 1rem 0; color: var(--text-muted-color);">--- OR ---</div>
 
-            <div class="ocr-upload-section">
-                <input type="file" id="ocrImageInput" accept="image/*" style="display: none;">
-                <button id="ocrUploadButton" class="add-task-button" style="width: 100%;">Upload Transaction Image (OCR)</button>
+            <div class="parse-text-section">
+                <textarea id="transactionTextInput" class="add-task-input" placeholder="> Paste transaction text from Google Lens here..." rows="5"></textarea>
+                <button id="parseTextButton" class="add-task-button" style="width: 100%;">Parse Text & Pre-fill Form</button>
             </div>
         </div>
 
@@ -448,6 +448,41 @@
                 console.error('Error:', error);
             } finally {
                 event.target.value = ''; // Clear file input
+            }
+        });
+
+        // Paste and Parse Logic
+        const transactionTextInput = document.getElementById('transactionTextInput');
+        const parseTextButton = document.getElementById('parseTextButton');
+
+        parseTextButton.addEventListener('click', async () => {
+            const text = transactionTextInput.value.trim();
+            if (!text) {
+                showStatus('✗ Please paste transaction text.', true);
+                return;
+            }
+
+            showStatus('Parsing text...');
+            try {
+                const res = await fetch(backendBaseUrl + '/parse-expense-text', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ transactionText: text }),
+                });
+                if (!res.ok) throw new Error(`Server responded with ${res.status}`);
+                const data = await res.json();
+                
+                if (data.parsedData) {
+                    expenseItem.value = data.parsedData.item || '';
+                    expenseAmount.value = data.parsedData.amount || '';
+                    showStatus('✓ Text parsed and form pre-filled!');
+                } else {
+                    showStatus('✗ Parsing failed: No data extracted.', true);
+                }
+
+            } catch (error) {
+                showStatus(`✗ Text parsing failed: ${error.message}`, true);
+                console.error('Error:', error);
             }
         });
 
