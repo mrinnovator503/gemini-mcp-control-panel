@@ -11,13 +11,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
-            --bg-color: #1a1c2c;
-            --text-color: #dcd7ba;
-            --primary-color: #ffaf5f;
-            --secondary-color: #5a5a78;
-            --border-color: #424242;
-            --card-color: rgba(42, 42, 60, 0.5);
-            --glow-color: rgba(255, 175, 95, 0.1);
+            /* Nothing Phone (2a) Special Edition Palette Interpretation */
+            --bg-color: #FFFFFF; /* White */
+            --text-color: #1A1A1A; /* Dark Gray */
+            --card-bg-color: #F7F7F7; /* Very Light Gray */
+            --border-color: #E0E0E0; /* Light Gray */
+            
+            --accent-red: #D20000;
+            --accent-yellow: #FFD700;
+            --accent-blue: #007BFF;
+
+            --button-text-light: #FFFFFF;
+            --button-text-dark: #1A1A1A;
+            
             --success-color: #4CAF50;
             --error-color: #f44336;
         }
@@ -45,19 +51,19 @@
         }
 
         h1 {
-            color: #fff;
+            color: var(--text-color);
             text-align: center;
             font-weight: 400;
-            text-shadow: 0 0 5px var(--primary-color);
+            text-shadow: 0 0 2px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
         }
         
         .card {
-            background-color: var(--card-color);
+            background-color: var(--card-bg-color);
             border: 1px solid var(--border-color);
             border-radius: 0;
             padding: 1.5rem;
-            box-shadow: 0 0 15px var(--glow-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             gap: 1rem;
@@ -74,7 +80,7 @@
 
         .card-header h2 {
             margin: 0;
-            color: var(--primary-color);
+            color: var(--text-color);
             font-weight: 400;
             font-size: 1.5rem;
         }
@@ -82,23 +88,22 @@
         .icon-button {
             background: none;
             border: none;
-            color: var(--text-color);
+            color: var(--secondary-color); /* Default subtle */
             font-size: 1.2rem;
             cursor: pointer;
             transition: color 0.2s ease-in-out;
             padding: 0.5rem;
         }
 
-        .icon-button:hover {
-            color: var(--primary-color);
+        .icon-button.ping-button {
+            color: var(--accent-yellow); /* Yellow for ping */
+        }
+        .icon-button.sync-button {
+            color: var(--accent-blue); /* Blue for sync */
         }
 
-        .icon-button.ping-button {
-            color: var(--text-muted-color); /* Subtle for ping */
-            font-size: 1rem;
-        }
-        .icon-button.ping-button:hover {
-            color: var(--primary-color);
+        .icon-button:hover {
+            color: var(--text-color); /* Darker on hover */
         }
 
         .task-list {
@@ -108,13 +113,13 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
-            max-height: 400px; /* Limit height */
-            overflow-y: auto; /* Add vertical scrollbar when needed */
-            padding-right: 10px; /* Add some space for the scrollbar */
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
         }
-
+        
         .task-list li {
-            background-color: #2e2e48;
+            background-color: var(--bg-color);
             padding: 0.75rem 1rem;
             border: 1px solid var(--border-color);
             display: flex;
@@ -132,7 +137,7 @@
             -webkit-appearance: none;
             width: 18px;
             height: 18px;
-            border: 2px solid var(--primary-color);
+            border: 2px solid var(--accent-blue); /* Blue border for checkboxes */
             background-color: transparent;
             cursor: pointer;
             position: relative;
@@ -140,8 +145,8 @@
         }
 
         .task-checkbox:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
+            background-color: var(--accent-blue); /* Blue fill when checked */
+            border-color: var(--accent-blue);
         }
 
         .task-checkbox:checked::before {
@@ -151,7 +156,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: var(--bg-color);
+            color: var(--button-text-light); /* White checkmark */
             font-size: 14px;
             line-height: 1;
         }
@@ -164,7 +169,7 @@
 
         .add-task-input {
             flex-grow: 1;
-            background-color: #2e2e48;
+            background-color: var(--bg-color);
             border: 1px solid var(--border-color);
             color: var(--text-color);
             border-radius: 0;
@@ -176,23 +181,23 @@
 
         .add-task-input:focus {
             outline: none;
-            border-color: var(--primary-color);
+            border-color: var(--accent-red); /* Red focus border */
         }
 
         .add-task-button {
-            background-color: var(--primary-color);
-            color: var(--bg-color);
-            border: 1px solid var(--primary-color);
+            background-color: var(--accent-red); /* Red accent for add button */
+            color: var(--button-text-light);
+            border: 1px solid var(--accent-red);
             border-radius: 0;
             padding: 12px 15px;
             font-size: 1.2rem;
             cursor: pointer;
             transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
-            line-height: 1; /* Match button height */
+            line-height: 1;
         }
         .add-task-button:hover {
             background-color: var(--bg-color);
-            color: var(--primary-color);
+            color: var(--accent-red);
         }
 
         #status-notification {
@@ -200,8 +205,8 @@
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background-color: var(--primary-color);
-            color: var(--bg-color);
+            background-color: var(--accent-blue); /* Blue for status */
+            color: var(--button-text-light);
             padding: 10px 20px;
             font-weight: 600;
             opacity: 0;
@@ -225,8 +230,8 @@
             <div class="card-header">
                 <h2>Todoist Matrix</h2>
                 <div style="display: flex; gap: 0.5rem;">
-                    <button class="icon-button" id="pingButton" title="System Check"><i class="fas fa-microchip"></i></button>
-                    <button class="icon-button" id="syncTasksButton" title="Execute Sync"><i class="fas fa-sync-alt"></i></button>
+                    <button class="icon-button ping-button" id="pingButton" title="System Check"><i class="fas fa-microchip"></i></button>
+                    <button class="icon-button sync-button" id="syncTasksButton" title="Execute Sync"><i class="fas fa-sync-alt"></i></button>
                 </div>
             </div>
 
@@ -260,7 +265,7 @@
         function showStatus(message, isError = false) {
             clearTimeout(statusTimeout);
             statusNotification.textContent = message;
-            statusNotification.style.backgroundColor = isError ? 'var(--error-color)' : 'var(--primary-color)';
+            statusNotification.style.backgroundColor = isError ? 'var(--error-color)' : 'var(--accent-blue)';
             statusNotification.classList.add('show');
             statusTimeout = setTimeout(() => {
                 statusNotification.classList.remove('show');
@@ -370,14 +375,16 @@
 
         syncTasksButton.addEventListener('click', renderTasks);
 
+        // TODO: Implement task completion logic in Phase 3
         taskList.addEventListener('change', async (event) => {
             if (event.target.classList.contains('task-checkbox')) {
                 const taskId = event.target.dataset.taskId;
                 const isCompleted = event.target.checked;
                 const endpoint = isCompleted ? '/complete-task' : '/reopen-task';
 
-                showStatus(`Updating task...`);
+                showStatus(`Task ${isCompleted ? 'completing' : 'uncompleting'}...`);
                 try {
+                    // This will be a new endpoint POST /complete-task or similar
                     const res = await fetch(backendBaseUrl + endpoint, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -385,10 +392,11 @@
                     });
                     if (!res.ok) throw new Error(`Server responded with ${res.status}`);
                     
+                    // Visual update happens first
                     event.target.closest('li').classList.toggle('completed', isCompleted);
                     showStatus(`✓ Task ${isCompleted ? 'completed' : 're-opened'}!`);
 
-                    // Optional: Re-render the whole list after a short delay to ensure consistency
+                    // Re-render the whole list after a short delay to ensure consistency with Todoist
                     setTimeout(renderTasks, 1500);
 
                 } catch (error) {
@@ -401,4 +409,3 @@
     </script>
 </body>
 </html>
-
